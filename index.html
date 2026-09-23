@@ -1,0 +1,2133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snutt Treptow | Game Developer Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* ── Core colors ── */
+            --slate: #646b97;
+            --blue: #6f95c6;
+
+            /* ── Bright background tints ── */
+            --bg: #dde1f0;
+            --bg-light: #e8ebf6;
+            --bg-card: #ced4e8;
+            --bg-deep: #c0c7de;
+
+            /* ── Borders ── */
+            --border: #646b97;
+            --border-light: #828aab;
+
+            /* ── Dark accent derivatives for text ── */
+            --accent-deep: #2e3458;
+            --accent-mid: #3d4570;
+            --accent-blue-dark: #3a5d8a;
+
+            /* ── Text ── */
+            --text: #15182b;
+            --text-body: #1e2238;
+            --text-muted: #2a2e4a;
+            --text-dim: #383c5e;
+            --text-light: #5a5e7e;
+        }
+
+        /* ── Dark theme ── */
+        body.dark {
+            --slate: #8b93c4;
+            --blue: #8fb4dc;
+
+            --bg: #141828;
+            --bg-light: #1b2034;
+            --bg-card: #202640;
+            --bg-deep: #283056;
+
+            --border: #3a4068;
+            --border-light: #4a5280;
+
+            --accent-deep: #c4cce8;
+            --accent-mid: #aab4d8;
+            --accent-blue-dark: #a4c2e4;
+
+            --text: #e8ebf6;
+            --text-body: #d4d9ee;
+            --text-muted: #b8bedc;
+            --text-dim: #9aa1c4;
+            --text-light: #7a82a8;
+        }
+
+        body.dark {
+            background-color: var(--bg);
+        }
+
+        body.dark .project-summary .project-meta,
+        body.dark .detail-label,
+        body.dark .project-number,
+        body.dark .click-hint {
+            color: var(--accent-color, var(--accent-deep));
+        }
+
+        body.dark .project-summary .project-company {
+            color: var(--text);
+        }
+
+        body.dark .award-item {
+            color: var(--text);
+        }
+
+        body.dark::before {
+            background:
+                radial-gradient(circle at 15% 20%, rgba(139, 147, 196, 0.10), transparent 45%),
+                radial-gradient(circle at 85% 80%, rgba(143, 180, 220, 0.08), transparent 45%);
+        }
+
+        /* ── Theme toggle ── */
+        .theme-toggle {
+            position: absolute;
+            top: 18px;
+            right: 28px;
+            width: 46px;
+            height: 46px;
+            border: 1px solid var(--border);
+            background: var(--bg-card);
+            color: var(--accent-mid);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1001;
+            transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+            padding: 0;
+        }
+
+        .theme-toggle:hover {
+            border-color: var(--blue);
+            color: var(--blue);
+        }
+
+        .theme-toggle svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+
+        .theme-toggle .icon-sun { display: none; }
+        body.dark .theme-toggle .icon-moon { display: none; }
+        body.dark .theme-toggle .icon-sun { display: block; }
+
+        @media (max-width: 700px) {
+            .theme-toggle { top: 12px; right: 18px; width: 42px; height: 42px; }
+            .theme-toggle svg { width: 18px; height: 18px; }
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: var(--bg);
+            color: var(--text-body);
+            line-height: 1.6;
+        }
+
+        /* ── Decorative background ── */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background:
+                radial-gradient(circle at 15% 20%, rgba(100, 107, 151, 0.10), transparent 45%),
+                radial-gradient(circle at 85% 80%, rgba(111, 149, 198, 0.08), transparent 45%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* ── Hero ── */
+        .hero {
+            text-align: center;
+            padding: 16px 20px 14px;
+            background: linear-gradient(160deg, var(--bg-light) 0%, var(--bg) 100%);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 100%;
+            background:
+                repeating-linear-gradient(
+                    45deg,
+                    transparent,
+                    transparent 30px,
+                    rgba(100, 107, 151, 0.025) 30px,
+                    rgba(100, 107, 151, 0.025) 31px
+                );
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--slate), var(--blue), var(--accent-deep), var(--slate));
+            background-size: 200% 100%;
+            animation: shimmer 5s linear infinite;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: 0% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        .hero-inner {
+            position: relative;
+            z-index: 2;
+        }
+
+        .profile-pic {
+            width: 92px;
+            height: 92px;
+            margin: 0 auto 8px;
+            border-radius: 50%;
+            border: 3px solid var(--slate);
+            box-shadow: 0 6px 24px rgba(100, 107, 151, 0.35);
+            background-size: cover;
+            background-position: center;
+            background-color: var(--bg-deep);
+        }
+
+        .hero .eyebrow {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: 1rem;
+            color: var(--accent-deep);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+
+        .hero h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--accent-deep);
+            margin-bottom: 6px;
+            letter-spacing: -1px;
+        }
+
+        .hero h1 .ampersand {
+            font-style: italic;
+            font-weight: 400;
+            color: var(--slate);
+        }
+
+        .hero p {
+            font-size: 0.92rem;
+            color: var(--text-muted);
+            max-width: 640px;
+            margin: 0 auto 10px;
+            font-weight: 400;
+        }
+
+        .hero .stats {
+            display: flex;
+            justify-content: center;
+            gap: 35px;
+            flex-wrap: wrap;
+            margin-top: 18px;
+        }
+
+        .hero .stat {
+            text-align: center;
+            position: relative;
+        }
+
+        .hero .stat:not(:last-child)::after {
+            content: "";
+            position: absolute;
+            right: -28px;
+            top: 15%;
+            height: 70%;
+            width: 1px;
+            background: linear-gradient(180deg, transparent, var(--border-light), transparent);
+        }
+
+        .hero .stat .num {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--accent-deep);
+        }
+
+        .hero .stat .label {
+            font-size: 0.78rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* ── Awards ── */
+        .awards-bar {
+            background: var(--bg-light);
+            padding: 18px 20px;
+            text-align: center;
+            border-top: 2px solid var(--slate);
+            border-bottom: 2px solid var(--slate);
+            position: relative;
+            z-index: 1;
+        }
+
+        .awards-bar span {
+            display: inline-block;
+            margin: 0 14px;
+            font-size: 0.83rem;
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+
+        /* ── Projects ── */
+        .projects {
+            max-width: 1100px;
+            margin: 20px auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.2rem;
+            font-weight: 600;
+            color: var(--accent-deep);
+            margin-bottom: 6px;
+            padding-bottom: 14px;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: "";
+            position: absolute;
+            bottom: 0; left: 0;
+            width: 80px; height: 3px;
+            background: var(--blue);
+        }
+
+        .projects-intro {
+            color: var(--text-dim);
+            margin-bottom: 35px;
+            font-style: italic;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1rem;
+        }
+
+        /* ── Project Card ── */
+        .project-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 0;
+            margin-bottom: 32px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+        }
+
+        .project-card::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0;
+            width: 4px; height: 100%;
+            background: var(--accent-color, var(--blue));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 5;
+        }
+
+        .project-card:hover {
+            border-color: var(--accent-color, var(--blue));
+            box-shadow: 0 10px 50px rgba(100, 107, 151, 0.25);
+        }
+
+        .project-card:hover::before {
+            opacity: 1;
+        }
+
+        .project-top {
+            position: relative;
+            display: flex;
+            align-items: stretch;
+            min-height: 360px;
+        }
+
+        .project-card:has(.has-image) .project-top {
+            min-height: 0;
+            aspect-ratio: 79 / 20;
+            align-items: stretch;
+        }
+
+        .project-card:not(:has(.has-image)) .project-top {
+            min-height: 0;
+            aspect-ratio: 79 / 20;
+            align-items: stretch;
+        }
+
+        .project-card:has(.has-image) .project-summary,
+        .project-card:not(:has(.has-image)) .project-summary {
+            padding: 20px 28px;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .project-card:has(.has-image) .project-summary .blurb,
+        .project-card:not(:has(.has-image)) .project-summary .blurb {
+            margin-bottom: 12px;
+        }
+
+        .project-card:has(.has-image) .project-summary .click-hint,
+        .project-card:not(:has(.has-image)) .project-summary .click-hint {
+            margin-top: 12px;
+        }
+
+        .project-summary {
+            flex: 0 0 55%;
+            padding: 42px 38px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            z-index: 2;
+            background: var(--bg-card);
+        }
+
+        .project-number {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: 0.9rem;
+            color: var(--accent-color, var(--accent-mid));
+            opacity: 0.85;
+            margin-bottom: 8px;
+            letter-spacing: 2px;
+            font-weight: 600;
+        }
+
+        .project-summary h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.9rem;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 8px;
+            line-height: 1.2;
+        }
+
+        .project-summary .project-meta {
+            font-size: 0.82rem;
+            color: var(--accent-color, var(--accent-mid));
+            margin-bottom: 18px;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        .project-summary .project-company {
+            color: var(--accent-deep);
+        }
+
+        .project-summary .blurb {
+            font-size: 0.92rem;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+            font-weight: 400;
+        }
+
+        .tag-row {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: auto;
+        }
+
+        .tag {
+            border: 1px solid var(--border-light);
+            border-radius: 0;
+            padding: 4px 13px;
+            font-size: 0.74rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            color: var(--text-dim);
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .click-hint {
+            margin-top: 20px;
+            font-size: 0.76rem;
+            color: var(--accent-color, var(--accent-mid));
+            opacity: 0.9;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* ── Graphic panel with diagonal clip ── */
+        .project-graphic {
+            flex: 1 1 45%;
+            min-width: 0;
+            position: relative;
+            clip-path: polygon(18% 0, 101% 0, 101% 100%, 0 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .project-graphic::after {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(135deg, transparent 40%, rgba(100, 107, 151, 0.3) 100%);
+            pointer-events: none;
+        }
+
+        .project-graphic .graphic-placeholder {
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            text-align: center;
+            padding: 40px;
+            z-index: 1;
+            position: relative;
+        }
+
+        .project-graphic .graphic-placeholder .icon {
+            font-size: 3rem;
+            display: block;
+            margin-bottom: 14px;
+            opacity: 0.45;
+        }
+
+        .project-graphic .graphic-placeholder .label {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+        }
+
+        .project-graphic.has-image {
+            flex: 1 1 45%;
+            min-width: 0;
+            aspect-ratio: 16 / 9;
+            position: relative;
+            overflow: hidden;
+            clip-path: polygon(18% 0, 101% 0, 101% 100%, 0 100%);
+            background: var(--bg-deep);
+        }
+
+        .project-card:nth-child(odd) .project-graphic.has-image {
+            clip-path: polygon(0 0, 100% 0, 82% 100%, 0 100%);
+        }
+
+        .project-graphic.has-image .graphic-placeholder {
+            display: none;
+        }
+
+        .project-graphic.has-image img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: cover;
+        }
+
+        /* ── Alternating layout ── */
+        .project-card:nth-child(odd) .project-top {
+            flex-direction: row-reverse;
+        }
+
+        .project-card:nth-child(odd) .project-graphic {
+            clip-path: polygon(0 0, 100% 0, 82% 100%, 0 100%);
+        }
+
+        .project-card:nth-child(odd)::before {
+            left: auto;
+            right: 0;
+        }
+
+        /* ── Per-project accent colors ── */
+        .project-card[data-accent="blue"] { --accent-color: #3a5d8a; }
+        .project-card[data-accent="blue"] .project-graphic {
+            background: linear-gradient(135deg, rgba(111, 149, 198, 0.35), var(--bg-deep));
+        }
+
+        .project-card[data-accent="slate"] { --accent-color: #2e3458; }
+        .project-card[data-accent="slate"] .project-graphic {
+            background: linear-gradient(135deg, rgba(100, 107, 151, 0.35), var(--bg-deep));
+        }
+
+        .project-card[data-accent="indigo"] { --accent-color: #3d4570; }
+        .project-card[data-accent="indigo"] .project-graphic {
+            background: linear-gradient(135deg, rgba(123, 134, 181, 0.35), var(--bg-deep));
+        }
+
+        .project-card[data-accent="steel"] { --accent-color: #2a4a6e; }
+        .project-card[data-accent="steel"] .project-graphic {
+            background: linear-gradient(135deg, rgba(82, 88, 120, 0.3), var(--bg-deep));
+        }
+
+        /* ── Per-project accent colors: dark overrides ── */
+        body.dark .project-card[data-accent="blue"] { --accent-color: #8fb4dc; }
+        body.dark .project-card[data-accent="slate"] { --accent-color: #b0b8e0; }
+        body.dark .project-card[data-accent="indigo"] { --accent-color: #a8b4e8; }
+        body.dark .project-card[data-accent="steel"] { --accent-color: #8ca8c8; }
+
+        /* ── Expand detail ── */
+        .project-detail {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .project-card.open .project-detail {
+            max-height: 6000px;
+        }
+
+        .project-detail-inner {
+            border-top: 1px solid var(--border);
+            padding: 30px 38px 36px;
+            position: relative;
+            background: var(--bg-card);
+        }
+
+        .project-detail-inner::before {
+            content: "";
+            position: absolute;
+            top: -2px; left: 50%;
+            transform: translateX(-50%);
+            width: 60px; height: 2px;
+            background: var(--accent-color, var(--blue));
+        }
+
+        .detail-section {
+            margin-bottom: 30px;
+        }
+
+        .detail-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .detail-label {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 0.95rem;
+            font-style: italic;
+            color: var(--accent-color, var(--accent-mid));
+            margin-bottom: 14px;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .detail-section ul {
+            list-style: none;
+        }
+
+        .detail-section li {
+            padding: 8px 0;
+            padding-left: 26px;
+            position: relative;
+            color: var(--text-body);
+            font-size: 0.9rem;
+            font-weight: 400;
+        }
+
+        .detail-section li::before {
+            content: "◆";
+            position: absolute;
+            left: 0;
+            font-size: 0.6rem;
+            color: var(--accent-color, var(--blue));
+            top: 12px;
+        }
+
+        .detail-section p {
+            color: var(--text-body);
+            font-size: 0.92rem;
+            font-weight: 400;
+            line-height: 1.75;
+            margin-bottom: 14px;
+        }
+
+        .detail-section p:last-child {
+            margin-bottom: 0;
+        }
+
+        .detail-section p a {
+            color: var(--accent-color, var(--accent-mid));
+            text-decoration: underline;
+            font-weight: 600;
+        }
+
+        .detail-link {
+            display: inline-block;
+            margin-top: 16px;
+            padding: 10px 22px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #fff;
+            background: var(--accent-color, var(--accent-mid));
+            border: 1px solid var(--accent-color, var(--accent-mid));
+            text-decoration: none;
+            transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+        }
+
+        .detail-link:hover {
+            background: var(--accent-deep);
+            border-color: var(--accent-deep);
+            box-shadow: 0 6px 20px rgba(100, 107, 151, 0.35);
+            transform: translateY(-1px);
+        }
+
+        body.dark .detail-link {
+            color: var(--bg-card);
+        }
+
+        body.dark .detail-link:hover {
+            color: var(--bg-card);
+        }
+
+        .award-item {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--accent-deep);
+            padding: 6px 0 6px 28px;
+            position: relative;
+        }
+
+        .award-item::before {
+            content: "★";
+            position: absolute;
+            left: 0;
+            top: 7px;
+            font-size: 1rem;
+            color: var(--accent-color, var(--blue));
+        }
+
+        .award-context {
+            font-size: 0.88rem;
+            font-weight: 400;
+            color: var(--text-muted);
+            margin-bottom: 14px;
+        }
+
+        /* ── Gallery (thumbnails → carousel) ── */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .gallery-thumb {
+            position: relative;
+            aspect-ratio: 16 / 9;
+            border: 1px solid var(--border);
+            background: var(--bg-deep);
+            cursor: pointer;
+            overflow: hidden;
+            padding: 0;
+            display: block;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+        }
+
+        .gallery-thumb img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .gallery-thumb::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, transparent 50%, rgba(100, 107, 151, 0.35) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .gallery-thumb:hover {
+            border-color: var(--accent-color, var(--blue));
+            box-shadow: 0 6px 25px rgba(100, 107, 151, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .gallery-thumb:hover::after {
+            opacity: 1;
+        }
+
+        /* ── Lightbox / carousel ── */
+        .lightbox {
+            position: fixed;
+            inset: 0;
+            background: rgba(21, 24, 43, 0.92);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            backdrop-filter: blur(4px);
+        }
+
+        .lightbox.open {
+            display: flex;
+        }
+
+        .lightbox-stage {
+            position: relative;
+            max-width: 90vw;
+            max-height: 82vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .gallery-thumb[data-type="video"]::before {
+            content: "▶";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #fff;
+            font-size: 1.6rem;
+            line-height: 1;
+            z-index: 2;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+            opacity: 0.9;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        .gallery-thumb[data-type="video"]:hover::before {
+            transform: translate(-50%, -50%) scale(1.15);
+            opacity: 1;
+        }
+
+        .lightbox-stage img,
+        .lightbox-stage iframe {
+            max-width: 90vw;
+            max-height: 82vh;
+            display: block;
+            border: 1px solid var(--border-light);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+        }
+
+        .lightbox-stage iframe {
+            width: 90vw;
+            height: 50.625vw;
+            max-height: 82vh;
+            aspect-ratio: 16 / 9;
+            background: #000;
+        }
+
+        @media (min-aspect-ratio: 16/9) {
+            .lightbox-stage iframe {
+                width: auto;
+                height: 82vh;
+            }
+        }
+
+        .lightbox-close,
+        .lightbox-nav {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.08);
+            color: #dde1f0;
+            border: 1px solid rgba(130, 138, 171, 0.5);
+            cursor: pointer;
+            font-family: 'Cormorant Garamond', serif;
+            transition: background 0.2s ease, border-color 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lightbox-close {
+            top: 24px;
+            right: 24px;
+            width: 44px;
+            height: 44px;
+            font-size: 1.6rem;
+            line-height: 1;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            /* × glyph sits slightly high in its em box */
+            transform: translateY(2px);
+        }
+
+        .lightbox-nav {
+            top: 50%;
+            width: 52px;
+            height: 52px;
+            font-size: 2rem;
+            line-height: 1;
+            padding: 0;
+            padding-bottom: 0.12em;
+            font-family: 'Arial', sans-serif;
+            transform: translateY(-50%);
+        }
+
+        .lightbox-nav.prev { left: 24px; }
+        .lightbox-nav.next { right: 24px; }
+
+        .lightbox-close:hover,
+        .lightbox-nav:hover {
+            background: rgba(111, 149, 198, 0.3);
+            border-color: var(--blue);
+        }
+
+        .lightbox-counter {
+            position: absolute;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #dde1f0;
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: 0.95rem;
+            letter-spacing: 1px;
+            opacity: 0.85;
+        }
+
+        .lightbox-caption {
+            position: absolute;
+            bottom: 56px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #aeb4d4;
+            font-size: 0.85rem;
+            max-width: 80vw;
+            text-align: center;
+            font-style: italic;
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        @media (max-width: 700px) {
+            .lightbox-nav { width: 40px; height: 40px; font-size: 1.5rem; }
+            .lightbox-nav.prev { left: 10px; }
+            .lightbox-nav.next { right: 10px; }
+            .lightbox-close { top: 12px; right: 12px; }
+        }
+
+        /* ── Video grid ── */
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+            margin-top: 10px;
+        }
+
+        .video-grid iframe {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            border: 1px solid var(--border);
+            border-radius: 0;
+        }
+
+        .video-placeholder {
+            background: var(--bg-deep);
+            border: 1px solid var(--border);
+            border-radius: 0;
+            aspect-ratio: 16 / 9;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-dim);
+            font-size: 0.8rem;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .video-placeholder::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(circle at center, rgba(100, 107, 151, 0.06), transparent 70%);
+        }
+
+        .video-placeholder:hover {
+            border-color: var(--accent-color, var(--blue));
+            box-shadow: 0 6px 25px rgba(100, 107, 151, 0.2);
+        }
+
+        .video-placeholder .play-icon {
+            font-size: 2.4rem;
+            margin-bottom: 10px;
+            opacity: 0.4;
+            z-index: 1;
+        }
+
+        .video-placeholder .video-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: 0.9rem;
+            padding: 0 20px;
+            text-align: center;
+            z-index: 1;
+            color: var(--text-muted);
+        }
+
+        .video-caption {
+            margin-top: 12px;
+            font-size: 0.82rem;
+            color: var(--text-dim);
+            font-style: italic;
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        /* ── Timeline ── */
+        .timeline-section {
+            max-width: 1100px;
+            margin: 70px auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 32px;
+        }
+
+        .timeline::before {
+            content: "";
+            position: absolute;
+            left: 7px; top: 0; bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, var(--slate), var(--blue), transparent);
+        }
+
+        .timeline-item {
+            margin-bottom: 28px;
+            position: relative;
+        }
+
+        .timeline-item::before {
+            content: "";
+            position: absolute;
+            left: -30px; top: 7px;
+            width: 12px; height: 12px;
+            background: var(--blue);
+            border: 2px solid var(--bg);
+            box-shadow: 0 0 8px rgba(111, 149, 198, 0.5);
+            transform: rotate(45deg);
+        }
+
+        .timeline-item .year {
+            font-size: 0.82rem;
+            color: var(--accent-deep);
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .timeline-item .role {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.2rem;
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        .timeline-item .company-name {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+        }
+
+        /* ── Education ── */
+        .education-section {
+            max-width: 1100px;
+            margin: 70px auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .edu-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 0;
+            padding: 24px 30px;
+            transition: border-color 0.3s ease;
+            position: relative;
+        }
+
+        .edu-card::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0;
+            width: 4px; height: 100%;
+            background: var(--blue);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .edu-card:hover {
+            border-color: var(--blue);
+        }
+
+        .edu-card:hover::before {
+            opacity: 1;
+        }
+
+        .edu-card h3 {
+            font-family: 'Cormorant Garamond', serif;
+            color: var(--text);
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .edu-card .school {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .edu-card .year {
+            color: var(--accent-deep);
+            font-size: 0.82rem;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        /* ── Back to top ── */
+        .back-to-top {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            width: 46px;
+            height: 46px;
+            background: var(--accent-mid);
+            color: #fff;
+            border: 1px solid var(--border);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(12px);
+            transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease, background 0.2s ease;
+            z-index: 999;
+        }
+
+        .back-to-top::before {
+            content: "";
+            width: 12px;
+            height: 12px;
+            border-top: 2px solid #fff;
+            border-left: 2px solid #fff;
+            transform: rotate(45deg) translate(2px, 2px);
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .back-to-top:hover {
+            background: var(--accent-deep);
+        }
+
+        /* ── Footer ── */
+        footer {
+            text-align: center;
+            padding: 24px 20px;
+            border-top: 1px solid var(--border);
+            color: var(--text-dim);
+            font-size: 0.82rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        footer p {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: 1rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 14px;
+            margin-bottom: 10px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 42px;
+            height: 42px;
+            border: 1px solid var(--border);
+            background: var(--bg-card);
+            color: var(--accent-mid);
+            text-decoration: none;
+            transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+        }
+
+        .social-links a:hover {
+            background: var(--accent-mid);
+            border-color: var(--accent-mid);
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        .social-links svg {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+        }
+
+        .hero .social-links {
+            margin-top: 14px;
+            margin-bottom: 0;
+        }
+
+        .hero .social-links a {
+            width: 34px;
+            height: 34px;
+            border-color: var(--border-light);
+            background: transparent;
+        }
+
+        .hero .social-links a:hover {
+            background: var(--accent-mid);
+            border-color: var(--accent-mid);
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        .hero .social-links svg {
+            width: 15px;
+            height: 15px;
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 700px) {
+            .hero { padding: 52px 16px 12px; }
+            .hero h1 { font-size: 1.9rem; letter-spacing: -0.5px; }
+            .hero .eyebrow { font-size: 0.85rem; letter-spacing: 2px; }
+            .hero p { font-size: 0.88rem; }
+            .hero .stats { gap: 24px; }
+            .hero .stat:not(:last-child)::after { display: none; }
+            .hero .stat .num { font-size: 1.5rem; }
+
+            .projects { padding: 0 14px; }
+            .section-title { font-size: 1.7rem; }
+            .projects-intro { margin-bottom: 24px; font-size: 0.95rem; }
+
+            .project-card { margin-bottom: 24px; }
+
+            .project-top {
+                flex-direction: column-reverse !important;
+                aspect-ratio: auto !important;
+                min-height: 0 !important;
+            }
+
+            .project-summary {
+                flex: 1 1 auto !important;
+                padding: 18px 18px !important;
+            }
+
+            .project-summary h3 { font-size: 1.55rem; }
+            .project-summary .blurb { font-size: 0.88rem; margin-bottom: 14px; }
+
+            .project-card .project-graphic,
+            .project-card:nth-child(odd) .project-graphic,
+            .project-card .project-graphic.has-image,
+            .project-card:nth-child(odd) .project-graphic.has-image {
+                flex: 1 1 auto;
+                clip-path: none;
+                aspect-ratio: 16 / 9;
+                min-height: 0;
+            }
+
+            .project-detail-inner { padding: 22px 18px 26px; }
+
+            .detail-section { margin-bottom: 24px; }
+            .detail-section p { font-size: 0.88rem; }
+            .detail-section li { font-size: 0.86rem; }
+
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+                gap: 10px;
+            }
+
+            .video-grid {
+                grid-template-columns: 1fr;
+                gap: 14px;
+            }
+
+            .timeline-section,
+            .education-section { margin: 40px auto; padding: 0 14px; }
+
+            .edu-card { padding: 18px 20px; }
+
+            .back-to-top { bottom: 18px; right: 18px; width: 42px; height: 42px; }
+
+            footer { padding: 20px 16px; }
+        }
+
+        @media (max-width: 420px) {
+            .hero h1 { font-size: 1.65rem; }
+            .hero .profile-pic { width: 78px; height: 78px; }
+            .section-title { font-size: 1.5rem; }
+            .project-summary h3 { font-size: 1.4rem; }
+            .project-summary { padding: 16px 14px !important; }
+            .project-detail-inner { padding: 20px 14px 24px; }
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(85px, 1fr));
+                gap: 8px;
+            }
+            .tag { padding: 3px 10px; font-size: 0.7rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
+        <svg class="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <svg class="icon-sun" viewBox="0 0 24 24"><path d="M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10zM12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+    </button>
+
+    <!-- ── Hero ── -->
+    <section class="hero">
+            <div class="hero-inner">
+            <div class="profile-pic" style="background-image: url('0B7A8204_1x1.jpg')"></div>
+            <div class="eyebrow">Portfolio</div>
+            <h1>Snutt Treptow</h1>
+            <p>Game Developer <span class="ampersand">&</span> Producer with 12+ years shipping titles across PC, PlayStation, Xbox, Switch, Mobile, and even Commodore 64.</p><p>Expertise in C++/Unreal Engine and C#/Unity3D development.</p>
+            <div class="social-links">
+                <a href="https://x.com/BustaSnutt" target="_blank" rel="noopener" aria-label="X / Twitter">
+                    <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                </a>
+                <a href="https://bsky.app/profile/snutt.bsky.social" target="_blank" rel="noopener" aria-label="Bluesky">
+                    <svg viewBox="0 0 24 24"><path d="M5.202 2.857C7.954 4.922 10.913 9.11 12 11.358c1.087-2.247 4.046-6.436 6.798-8.501C20.783 1.366 24 .213 24 3.883c0 .732-.42 6.156-.667 7.037-.856 3.061-3.978 3.842-6.755 3.37 4.854.826 6.089 3.562 3.422 6.299-5.065 5.196-7.28-1.304-7.847-2.97-.104-.305-.152-.448-.153-.327 0-.121-.05.022-.153.327-.568 1.666-2.782 8.166-7.847 2.97-2.667-2.737-1.432-5.473 3.422-6.3-2.777.473-5.899-.308-6.755-3.369C.42 10.04 0 4.615 0 3.883c0-3.67 3.217-2.517 5.202-1.026"/></svg>
+                </a>
+                <a href="https://www.linkedin.com/in/snutt-treptow-40b7b8145/" target="_blank" rel="noopener" aria-label="LinkedIn">
+                    <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.852 3.37-1.852 3.601 0 4.267 2.37 4.267 5.455v6.288zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.063 2.063 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                </a>
+                <a href="https://www.youtube.com/@GameDevCircle" target="_blank" rel="noopener" aria-label="YouTube">
+                    <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                </a>
+                <a href="https://twitch.tv/snutt101" target="_blank" rel="noopener" aria-label="Twitch">
+                    <svg viewBox="0 0 24 24"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714Z"/></svg>
+                </a>
+            </div>
+            <!-- <div class="stats">
+                <div class="stat"><div class="num">9M+</div><div class="label">Copies Sold</div></div>
+                <div class="stat"><div class="num">170M+</div><div class="label">Views Generated</div></div>
+                <div class="stat"><div class="num">1.1M+</div><div class="label">Community</div></div>
+                <div class="stat"><div class="num">9+</div><div class="label">Shipped Titles</div></div>
+            </div> -->
+        </div>
+    </section>
+
+    <!-- ── Projects ── -->
+    <section class="projects">
+        <h2 class="section-title">Highlighted Projects</h2>
+        <p class="projects-intro">Each project tells a story. Click to unfold the details.</p>
+
+        <!-- ════ Project 1: Satisfactory — graphic on RIGHT ════ -->
+        <div class="project-card" data-accent="blue" onclick="toggleCard(this)">
+            <div class="project-top">
+                <div class="project-summary">
+                    <h3>Satisfactory</h3>
+                    <div class="project-meta">3D Factory Automation &middot; 2018 – 2025 &middot; <span class="project-company">Coffee Stain Studios</span></div>
+                    <div class="blurb">A globally successful, award-winning 3D first-person open-world factory building game with 9 million+ copies sold. Worked as a gameplay programmer and later as community manager.</div>
+                    <div class="click-hint">▸ Click to expand</div>
+                </div>
+                <div class="project-graphic has-image">
+                    <img src="satisfactory-key-art-no-logo-2048x1152.jpg" alt="Satisfactory key art">
+                    <div class="graphic-placeholder">
+                        <span class="icon">⚙️</span>
+                        <span class="label">Key Art Placeholder</span>
+                    </div>
+                </div>
+            </div>
+            <div class="project-detail">
+                <div class="project-detail-inner">
+
+                    <div class="detail-section">
+                        <div class="detail-label">Gameplay Programming</div>
+                        <p>Satisfactory is a globally successful title with 9 million+ copies sold, and I worked for many years developing and maintaining C++ and Blueprint gameplay code in Unreal Engine. I helped build core gameplay systems such as factory building, weapons, equipment, and enemy spawning and behavior, among others.</p>
+                        <p>I also played a big part in architecting the multiplayer networking layer for large-scale open-world co-op, enabling seamless play for up to 4 players and optimizing netcode to replicate thousands of simultaneous objects using a replication graph to reduce CPU overhead on the server, supporting both dedicated and listen servers.</p>
+                    </div>
+
+                    <div class="detail-section">
+                        <div class="detail-label">Community Management</div>
+                        <p>As Community Manager I moderated and managed a community of 1.1M+ members across Discord, Reddit, and social platforms, creating and executing community strategies aligned with development milestones and release cycles. I produced content for YouTube and Twitch along with release trailers that generated 170M+ total views and 500K followers across multiple platforms, and oversaw marketing and release plans for multiple major updates, coordinating across multiple departments.</p>
+                        <a class="detail-link" href="https://store.steampowered.com/app/526870/Satisfactory/" target="_blank" rel="noopener">View on Steam ↗</a>
+                    </div>
+
+                    <div class="detail-section">
+                        <div class="detail-label">Awards</div>
+                        <div class="award-item">PC Game of the Year &middot; Golden Joystick Awards 2024</div>
+                        <div class="award-item">Best Technology &middot; Swedish Game Awards 2025</div>
+                        <div class="award-item">Store Rating &middot; Xbox Excellence Awards 2026</div>
+                        <div class="award-item">Player Engagement &middot; Xbox Excellence Awards 2026</div>
+                    </div>
+
+                    <div class="detail-section">
+                        <div class="detail-label">Gallery</div>
+                        <div class="gallery-grid" data-gallery>
+                            <button class="gallery-thumb" data-type="video" data-video="https://www.youtube.com/watch?v=Jt4XOPiPJHs" data-alt="Satisfactory Launch Trailer" data-caption="Satisfactory — Launch Trailer">
+                                <img src="https://img.youtube.com/vi/Jt4XOPiPJHs/hqdefault.jpg" alt="Satisfactory Launch Trailer">
+                            </button>
+                            <button class="gallery-thumb" data-type="video" data-video="https://www.youtube.com/watch?v=ZG4ff33l90Q" data-alt="Implementing Mass Dismantle Live on Twitch" data-caption="Implementing Mass Dismantle Live on Twitch">
+                                <img src="https://img.youtube.com/vi/ZG4ff33l90Q/hqdefault.jpg" alt="Satisfactory Launch Trailer">
+                            </button>
+                            <button class="gallery-thumb" data-full="satisfactory-01.jpg" data-alt="Satisfactory screenshot 1" data-caption="Satisfactory — screenshot">
+                                <img src="satisfactory-01.jpg" alt="Satisfactory screenshot 1">
+                            </button>
+                            <button class="gallery-thumb" data-full="satisfactory-02.jpg" data-alt="Satisfactory screenshot 2" data-caption="Satisfactory — screenshot">
+                                <img src="satisfactory-02.jpg" alt="Satisfactory screenshot 2">
+                            </button>
+                            <button class="gallery-thumb" data-full="satisfactory-03.jpg" data-alt="Satisfactory screenshot 3" data-caption="Satisfactory — screenshot">
+                                <img src="satisfactory-03.jpg" alt="Satisfactory screenshot 3">
+                            </button>
+
+                        </div>
+                    </div>
+
+                    <!-- <div class="detail-section">
+                        <div class="detail-label">Videos</div>
+                        <div class="video-grid">
+                            <div class="video-placeholder">
+                                <span class="play-icon">▶</span>
+                                <span class="video-title">Satisfactory Update Trailer</span>
+                            </div>
+                            <div class="video-placeholder">
+                                <span class="play-icon">▶</span>
+                                <span class="video-title">Community Spotlight Feature</span>
+                            </div>
+                        </div>
+                    </div> -->
+
+                </div>
+            </div>
+        </div>
+
+<!-- ════ Project 8: Custom Vulkan Game Engine — graphic on LEFT ════ -->
+        <div class="project-card" data-accent="indigo" onclick="toggleCard(this)">
+            <div class="project-top">
+                <div class="project-summary">
+                    <h3>Custom Vulkan Game Engine</h3>
+                    <div class="project-meta">Personal Project &middot; C++ / Vulkan &middot; <span class="project-company">Treptow Art Studio</span></div>
+                    <div class="blurb">A custom C++ game engine built on the Vulkan rendering API, designed to emulate the technical restraints of the Nintendo 64 and PlayStation era of computer graphics but with a modern rendering approach.</div>
+                    <div class="click-hint">▸ Click to expand</div>
+                </div>
+                <div class="project-graphic has-image">
+                    <img src="bricked-engine.jpg" alt="Snutt's Little Game Engine">
+                    
+                    <div class="graphic-placeholder">
+                        <span class="icon">🎮</span>
+                        <span class="label">Key Art Placeholder</span>
+                    </div>
+                </div>
+            </div>
+            <div class="project-detail">
+                <div class="project-detail-inner">
+
+                    <div class="detail-section">
+                        <div class="detail-label">Overview</div>
+                        <p>Started as a small Vulkan prototype to learn the rendering API and grew into a full custom game engine written in C++. Designed to emulate the technical restraints of the Nintendo 64 and PlayStation era: vertex imprecisions, limited color palettes, dithering, and down-sampled resolutions, but with a modern rendering approach. Having grown up playing N64 and PlayStation games, I wanted to recreate that era's distinctive look with modern tooling and architecture.</p>
+                    </div>
+
+                    <div class="detail-section">
+                        <div class="detail-label">Engine Features</div>
+                        <p>The engine includes a mesh loading and rendering pipeline with skeletal mesh rendering and animations, dynamic lighting and shadow maps, physics integration via Box3D, audio playback using miniaudio, and mesh instancing and batch rendering for performance. A post-processing pipeline, text rendering, and particle systems round out the visuals, while a scene graph with serialization and a component-based entity system handle world structure. Input handling and an in-engine editor built with ImGui complete the toolchain, and window management is handled using GLFW.</p>
+                    </div>
+
+                    <div class="detail-section">
+                        <div class="detail-label">Gallery</div>
+                        <div class="gallery-grid" data-gallery>
+                            <button class="gallery-thumb" data-type="video" data-video="https://www.youtube.com/watch?v=L87IZS8Byzc" data-alt="Bricked Engine video" data-caption="Bricked Engine — video">
+                                <img src="https://img.youtube.com/vi/L87IZS8Byzc/hqdefault.jpg" alt="Bricked Engine video">
+                            </button>
+                            <button class="gallery-thumb" data-type="video" data-video="https://www.youtube.com/watch?v=Tyij0oNu1Sg" data-alt="Bricked Engine video" data-caption="Bricked Engine — video">
+                                <img src="https://img.youtube.com/vi/Tyij0oNu1Sg/hqdefault.jpg" alt="Bricked Engine video">
+                            </button>
+                            <button class="gallery-thumb" data-full="brickedengine-02.jpg" data-alt="Bricked Engine screenshot 2" data-caption="Bricked Engine — screenshot">
+                                <img src="brickedengine-02.jpg" alt="Bricked Engine screenshot 2">
+                            </button>
+                            <button class="gallery-thumb" data-full="brickedengine-01.jpg" data-alt="Bricked Engine screenshot 1" data-caption="Bricked Engine — screenshot">
+                                <img src="brickedengine-01.jpg" alt="Bricked Engine screenshot 1">
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        
+
+        <!-- ════ Project 4: Kung Fury: Street Rage — graphic on LEFT ════ -->
+        <div class="project-card" data-accent="blue" onclick="toggleCard(this)">
+            <div class="project-top">
+                <div class="project-summary">
+                    <h3>Kung Fury: Street Rage</h3>
+                    <div class="project-meta">Retro Beat-'em-up &middot; 2015 &middot; <span class="project-company">Hello There Games</span></div>
+                    <div class="blurb">A retro 2D side-scrolling beat-'em-up based on the Kung Fury short film, featuring the film's 1980s VHS aesthetic and soundtrack.</div>
+                    <div class="click-hint">▸ Click to expand</div>
+                </div>
+                <div class="project-graphic has-image">
+                    <img src="kungfury-street-rage-keyart2.jpg" alt="Kung Fury: Street Rage key art">
+                    <div class="graphic-placeholder">
+                        <span class="icon">👊</span>
+                        <span class="label">Key Art Placeholder</span>
+                    </div>
+                </div>
+            </div>
+            <div class="project-detail">
+                <div class="project-detail-inner">
+
+                    <div class="detail-section">
+                        <div class="detail-label">Contributions</div>
+                        <p>I helped develop C#/Unity3D gameplay code and audio solutions for a retro 2D side-scrolling beat-'em-up based on the Kung Fury short film's 1980s VHS aesthetic and soundtrack. Originally designed as a mobile game first, it was also released on PC. This was a very fun project to be a part of. We were very close to the film production team, and as promotional material I also implemented a Commodore 64 demake of the game (see below)!</p>
+                        <a class="detail-link" href="https://store.steampowered.com/app/373180/Kung_Fury_Street_Rage__Ultimate_Edition/" target="_blank" rel="noopener">View on Steam ↗</a>
+                    </div>
+
+                    <div class="detail-section">
+                        <div class="detail-label">Gallery</div>
+                        <div class="gallery-grid" data-gallery>
+                            <button class="gallery-thumb" data-type="video" data-video="https://www.youtube.com/watch?v=cjM7FJFF8eo" data-alt="Kung Fury: Street Rage video" data-caption="Kung Fury: Street Rage — video">
+                                <img src="https://img.youtube.com/vi/cjM7FJFF8eo/hqdefault.jpg" alt="Kung Fury: Street Rage video">
+                            </button>
+                            <button class="gallery-thumb" data-full="kungfury-01.jpg" data-alt="Kung Fury: Street Rage screenshot 1" data-caption="Kung Fury: Street Rage — screenshot">
+                                <img src="kungfury-01.jpg" alt="Kung Fury: Street Rage screenshot 1">
+                            </button>
+                            <button class="gallery-thumb" data-full="kungfury-02.jpg" data-alt="Kung Fury: Street Rage screenshot 2" data-caption="Kung Fury: Street Rage — screenshot">
+                                <img src="kungfury-02.jpg" alt="Kung Fury: Street Rage screenshot 2">
+                            </button>
+                            <button class="gallery-thumb" data-full="kungfury-03.jpg" data-alt="Kung Fury: Street Rage screenshot 3" data-caption="Kung Fury: Street Rage — screenshot">
+                                <img src="kungfury-03.jpg" alt="Kung Fury: Street Rage screenshot 3">
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="detail-section">
+                        <div class="detail-label">Featured Video — Kung Fury: Street Rage Game Trailer</div>
+                        <div class="video-grid">
+                            <iframe
+                                src="https://www.youtube-nocookie.com/embed/8AKmRbJFJLM?feature=oembed"
+                                title="Kung Fury: Street Rage | Game Trailer"
+                                frameborder="0"
+                                referrerpolicy="strict-origin-when-cross-origin"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                allowfullscreen>
+                            </iframe>
+                        </div>
+                        <p class="video-caption">
+                            The official game trailer for Kung Fury: Street Rage
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- ════ Project 2: AVICII Invector — graphic on LEFT ════ -->
+        <div class="project-card" data-accent="slate" onclick="toggleCard(this)">
+            <div class="project-top">
+                <div class="project-summary">
+                    <h3>AVICII Invector</h3>
+                    <div class="project-meta">Rhythm / Music Game &middot; 2016 – 2018 &middot; <span class="project-company">Hello There Games</span></div>
+                    <div class="blurb">An award-winning rhythm game featuring the music of AVICII. Led creative and technical development as programmer, level designer, and producer.</div>
+                    <div class="click-hint">▸ Click to expand</div>
+                </div>
+                <div class="project-graphic has-image">
+                    <img src="invector-keyart.jpg" alt="AVICII Invector key art">
+                    <div class="graphic-placeholder">
+                        <span class="icon">🎵</span>
+                        <span class="label">Key Art Placeholder</span>
+                    </div>
+                </div>
+            </div>
+            <div class="project-detail">
+                <div class="project-detail-inner">
+
+                    <div class="detail-section">
+                        <div class="detail-label">Contributions</div>
+                        <p>The initial release of Invector was a PlayStation 4 exclusive title published by Sony Interactive. I initially joined the project as a programmer but eventually ended up leading creative and technical development as Producer and Team Lead. I owned the technical implementation of the music rhythm syncing system that drives all animations and feedback in the game to match the beat of the music.</p>
+                        <p>I also led level design and designed the majority of the levels in the original release, handled all console compliance, and coordinated localization.</p>
+                        <a class="detail-link" href="https://store.steampowered.com/app/986800/AVICII_Invector/" target="_blank" rel="noopener">View on Steam ↗</a>
+                    </div>
+
+                    <div class="detail-section">
+                        <div class="detail-label">Awards</div>
+                        <p class="award-context">A rerelease of Invector on PC later received multiple awards, including:</p>
+                        <div class="award-item">Best Rhythm/Music PC Game &middot; NYX Game Awards 2022</div>
+                        <div class="award-item">Best Experience PC Game &middot; NYX Game Awards 2022</div>
+                    </div>
+
+                    <div class="detail-section">
+                        <div class="detail-label">Gallery</div>
+                        <div class="gallery-grid" data-gallery>
+                            <button class="gallery-thumb" data-type="video" data-video="https://www.youtube.com/watch?v=B5soUOisDjs" data-alt="Kung Fury: Street Rage video" data-caption="Kung Fury: Street Rage — video">
+                                <img src="https://img.youtube.com/vi/B5soUOisDjs/hqdefault.jpg" alt="Invector playthrough of one of the hardest levels I designed">
+                            </button>
+                            <button class="gallery-thumb" data-full="invector-01.jpg" data-alt="AVICII Invector screenshot 1" data-caption="AVICII Invector — screenshot">
+                                <img src="invector-01.jpg" alt="AVICII Invector screenshot 1">
+                            </button>
+                            <button class="gallery-thumb" data-full="invector-02.jpg" data-alt="AVICII Invector screenshot 2" data-caption="AVICII Invector — screenshot">
+                                <img src="invector-02.jpg" alt="AVICII Invector screenshot 2">
+                            </button>
+                            <button class="gallery-thumb" data-full="invector-03.jpg" data-alt="AVICII Invector screenshot 3" data-caption="AVICII Invector — screenshot">
+                                <img src="invector-03.jpg" alt="AVICII Invector screenshot 3">
+                            </button>
+                            <button class="gallery-thumb" data-full="invector-04.jpg" data-alt="AVICII Invector screenshot 4" data-caption="AVICII Invector — screenshot">
+                                <img src="invector-04.jpg" alt="AVICII Invector screenshot 4">
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="detail-section">
+                        <div class="detail-label">Featured Video — AVICII Invector Official Trailer (PS4)</div>
+                        <div class="video-grid">
+                            <iframe
+                                src="https://www.youtube-nocookie.com/embed/Th_qS4cX87w?feature=oembed"
+                                title="AVICII INVECTOR - Official Trailer | PS4"
+                                frameborder="0"
+                                referrerpolicy="strict-origin-when-cross-origin"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                allowfullscreen>
+                            </iframe>
+                        </div>
+                        <p class="video-caption">
+                            The official launch trailer for AVICII Invector on PlayStation 4
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- ════ Project 7: Incoherence: Dark Rooms — graphic on RIGHT ════ -->
+        <div class="project-card" data-accent="blue" onclick="toggleCard(this)">
+            <div class="project-top">
+                <div class="project-summary">
+                    <h3>Incoherence: Dark Rooms</h3>
+                    <div class="project-meta">First-Person Puzzle Game &middot; Upcoming &middot; <span class="project-company">pmrd</span></div>
+                    <div class="blurb">Consulted on game design for an upcoming atmospheric first-person puzzle game by pmrd, built in Unreal Engine 5. Designed and implemented a number of the puzzles featured in the demo.</div>
+                    <div class="click-hint">▸ Click to expand</div>
+                </div>
+                <div class="project-graphic has-image">
+                    <img src="dark-rooms-keyart2.jpg" alt="Dark Rooms key art">
+
+                    <div class="graphic-placeholder">
+                        <span class="icon">🕯️</span>
+                        <span class="label">Incoherence: Key Art Placeholder</span>
+                    </div>
+                </div>
+            </div>
+            <div class="project-detail">
+                <div class="project-detail-inner">
+
+                    <div class="detail-section">
+                        <div class="detail-label">Contributions</div>
+                        <p>Consulted on overall game design for an upcoming first-person puzzle game by pmrd, built in Unreal Engine 5. Designed and implemented a number of the puzzles featured in the demo.</p>
+                        <a class="detail-link" href="https://store.steampowered.com/app/3925340/Incoherence_Dark_Rooms/" target="_blank" rel="noopener">View on Steam ↗</a>
+                    </div>
+
+                    <div class="detail-section">
+                        <div class="detail-label">Gallery</div>
+                        <div class="gallery-grid" data-gallery>
+                            <button class="gallery-thumb" data-type="video" data-video="https://www.youtube.com/watch?v=aatVuU3KYfI" data-alt="Incoherence: Dark Rooms trailer" data-caption="Incoherence: Dark Rooms — trailer">
+                                <img src="https://img.youtube.com/vi/aatVuU3KYfI/hqdefault.jpg" alt="Incoherence: Dark Rooms trailer">
+                            </button>
+                            <button class="gallery-thumb" data-full="dark-rooms-01.jpg" data-alt="Dark Rooms screenshot 1" data-caption="Incoherence: Dark Rooms — screenshot">
+                                <img src="dark-rooms-01.jpg" alt="Dark Rooms screenshot 1">
+                            </button>
+                            <button class="gallery-thumb" data-full="dark-rooms-02.jpg" data-alt="Dark Rooms screenshot 2" data-caption="Incoherence: Dark Rooms — screenshot">
+                                <img src="dark-rooms-02.jpg" alt="Dark Rooms screenshot 2">
+                            </button>
+                            <button class="gallery-thumb" data-full="dark-rooms-03.jpg" data-alt="Dark Rooms screenshot 3" data-caption="Incoherence: Dark Rooms — screenshot">
+                                <img src="dark-rooms-03.jpg" alt="Dark Rooms screenshot 3">
+                            </button>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- ════ Project 3: Taekwondo Global Tournament — graphic on RIGHT ════ -->
+        <div class="project-card" data-accent="indigo" onclick="toggleCard(this)">
+            <div class="project-top">
+                <div class="project-summary">
+                    <h3>Taekwondo Global Tournament</h3>
+                    <div class="project-meta">Mobile Fighting Game &middot; 2014 – 2016 &middot; <span class="project-company">Hello There Games</span></div>
+                    <div class="blurb">A mobile fighting game featuring adaptive AI behavior that read player action history and adjusted its decisions. Players reported thinking they were playing another human.</div>
+                    <div class="click-hint">▸ Click to expand</div>
+                </div>
+                <div class="project-graphic has-image">
+                    <img src="taekwondo-key-art.jpg" alt="Taekwondo Global Tournament key art">
+                    <div class="graphic-placeholder">
+                        <span class="icon">🥋</span>
+                        <span class="label">Key Art Placeholder</span>
+                    </div>
+                </div>
+            </div>
+            <div class="project-detail">
+                <div class="project-detail-inner">
+
+                    <div class="detail-section">
+                        <div class="detail-label">Contributions</div>
+                        <p>Built adaptive AI in C#/Unity3D that read player action history and adjusted its decisions using a custom solution based on behavior trees. Players reported thinking they were playing another human. I also helped write netcode and matchmaking for online multiplayer using our own custom implementation.</p>
+                        <p>The game was built using a deterministic game loop and input-based packets, allowing for network rollback between clients running on mobile.</p>
+                        <p>The game was originally developed for mobile and then later, as a producer, I helped produce an adaptation of the game for PC called Taekwondo: Grand Prix in collaboration with the World Taekwondo Federation.</p>
+                        <a class="detail-link" href="https://store.steampowered.com/app/462590/Taekwondo_Grand_Prix/" target="_blank" rel="noopener">View on Steam ↗</a>
+                    </div>
+
+                    <div class="detail-section">
+                        <div class="detail-label">Gallery</div>
+                        <div class="gallery-grid" data-gallery>
+                            <button class="gallery-thumb" data-type="video" data-video="https://www.youtube.com/watch?v=hK1B4WdHCzE" data-alt="Taekwondo Grand Prix Action Game Trailer" data-caption="Taekwondo Grand Prix — Action Game Trailer">
+                                <img src="https://img.youtube.com/vi/hK1B4WdHCzE/hqdefault.jpg" alt="Taekwondo Grand Prix Action Game Trailer">
+                            </button>
+                            <button class="gallery-thumb" data-full="taekwondo-01.jpg" data-alt="Taekwondo Global Tournament screenshot 1" data-caption="Taekwondo Global Tournament — screenshot">
+                                <img src="taekwondo-01.jpg" alt="Taekwondo Global Tournament screenshot 1">
+                            </button>
+                            <button class="gallery-thumb" data-full="taekwondo-02.jpg" data-alt="Taekwondo Global Tournament screenshot 2" data-caption="Taekwondo Global Tournament — screenshot">
+                                <img src="taekwondo-02.jpg" alt="Taekwondo Global Tournament screenshot 2">
+                            </button>
+                            <button class="gallery-thumb" data-full="taekwondo-03.jpg" data-alt="Taekwondo Global Tournament screenshot 3" data-caption="Taekwondo Global Tournament — screenshot">
+                                <img src="taekwondo-03.jpg" alt="Taekwondo Global Tournament screenshot 3">
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- ════ Project 5: Kung Fury: Street Rage — Commodore 64 Demake — graphic on LEFT ════ -->
+        <div class="project-card" data-accent="steel" onclick="toggleCard(this)">
+            <div class="project-top">
+                <div class="project-summary">
+                    <h3>Kung Fury — Commodore 64 Demake</h3>
+                    <div class="project-meta">Commodore 64 Demake &middot; 2015 &middot; <span class="project-company">Hello There Games</span></div>
+                    <div class="blurb">A promotional Commodore 64 demake of Kung Fury: Street Rage, produced as a press mailer on cassette tape in anticipation of the game's release. Ran natively on actual C64 hardware, with tapes produced in-house.</div>
+                    <div class="click-hint">▸ Click to expand</div>
+                </div>
+                <div class="project-graphic has-image">
+                    <img src="KungFury-C64-keyart.jpg" alt="Kung Fury Commodore 64 key art">
+                    <div class="graphic-placeholder">
+                        <span class="icon">📼</span>
+                        <span class="label">Key Art Placeholder</span>
+                    </div>
+                </div>
+            </div>
+            <div class="project-detail">
+                <div class="project-detail-inner">
+
+                    <div class="detail-section">
+                        <div class="detail-label">Contributions</div>
+                        <p>Developed a Commodore 64 demake of Kung Fury: Street Rage that ran fully on actual C64 hardware. It was produced as a promotional press mailer: cassette tapes were sent out to the press in anticipation of the game's release, and I personally produced the cassette tapes in-house, including the playable media distributed to press contacts.</p>
+                    </div>
+
+                    <div class="detail-section">
+                        <div class="detail-label">Gallery</div>
+                        <div class="gallery-grid" data-gallery>
+                            <button class="gallery-thumb" data-full="kungFury-C64-01.jpg" data-alt="Kung Fury C64 screenshot 1" data-caption="Kung Fury — Commodore 64 demake screenshot">
+                                <img src="kungFury-C64-01.jpg" alt="Kung Fury C64 screenshot 1">
+                            </button>
+                            <button class="gallery-thumb" data-full="kungFury-C64-02.jpg" data-alt="Kung Fury C64 screenshot 2" data-caption="Kung Fury — Commodore 64 demake screenshot">
+                                <img src="kungFury-C64-02.jpg" alt="Kung Fury C64 screenshot 2">
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="detail-section">
+                        <div class="detail-label">Featured Video — Kung Fury: Street Rage C64 Demake</div>
+                        <div class="video-grid">
+                            <iframe
+                                src="https://www.youtube-nocookie.com/embed/amqx0jBFMuY?feature=oembed"
+                                title="Kung Fury: Street Rage - C64 Demake"
+                                frameborder="0"
+                                referrerpolicy="strict-origin-when-cross-origin"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                allowfullscreen>
+                            </iframe>
+                        </div>
+                        <p class="video-caption">
+                            The Commodore 64 demake of Kung Fury: Street Rage running on actual C64 hardware
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- ════ Project 5: AVICII Gravity — graphic on RIGHT ════ -->
+        <div class="project-card" data-accent="slate" onclick="toggleCard(this)">
+            <div class="project-top">
+                <div class="project-summary">
+                    <h3>AVICII Gravity | Gravity HD</h3>
+                    <div class="project-meta">Mobile Rhythm Game &middot; 2014 &middot; <span class="project-company">Hello There Games</span></div>
+                    <div class="blurb">An award-winning mobile rhythm game featuring AVICII's music.</div>
+                    <div class="click-hint">▸ Click to expand</div>
+                </div>
+                <div class="project-graphic has-image">
+                    <img src="avicii-gravity-keyart.jpg" alt="AVICII Gravity key art">
+                </div>
+            </div>
+            <div class="project-detail">
+                <div class="project-detail-inner">
+
+                    <div class="detail-section">
+                        <div class="detail-label">Contributions</div>
+                        <p>For Gravity I wrote general gameplay code in C#/Unity3D and implemented menus and transitions between tracks. As a producer I led efforts to re-release the game with refined graphics.</p>
+                    </div>
+
+                    <div class="detail-section">
+                        <div class="detail-label">Awards</div>
+                        <div class="award-item">Gold Award &middot; Swedish Design Awards 2014</div>
+                    </div>
+
+                    <div class="detail-section">
+                        <div class="detail-label">Gallery</div>
+                        <div class="gallery-grid" data-gallery>
+                            <button class="gallery-thumb" data-type="video" data-video="https://www.youtube.com/watch?v=vnfoFG8L618" data-alt="AVICII Gravity trailer" data-caption="AVICII Gravity — trailer">
+                                <img src="https://img.youtube.com/vi/vnfoFG8L618/hqdefault.jpg" alt="AVICII Gravity trailer">
+                            </button>
+                            <button class="gallery-thumb" data-full="Avicii-Gravity-HD-2830568926.jpg" data-alt="AVICII Gravity screenshot 1" data-caption="AVICII Gravity — screenshot">
+                                <img src="Avicii-Gravity-HD-2830568926.jpg" alt="AVICII Gravity screenshot 1">
+                            </button>
+                            <button class="gallery-thumb" data-full="gravity.jpg" data-alt="AVICII Gravity screenshot 2" data-caption="AVICII Gravity — screenshot">
+                                <img src="gravity.jpg" alt="AVICII Gravity screenshot 2">
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- ════ Project: Find a Way Soccer Series — graphic on LEFT ════ -->
+        <div class="project-card" data-accent="indigo" onclick="toggleCard(this)">
+            <div class="project-top">
+                <div class="project-summary">
+                    <h3>Find a Way Soccer Series</h3>
+                    <div class="project-meta">Mobile Puzzle / Sports &middot; 2014 – 2015 &middot; <span class="project-company">Hello There Games</span></div>
+                    <div class="blurb">A series of soccer-themed puzzle games. Spanning the 2014 Brazil World Cup, a standalone sequel, and the Women's Cup edition.</div>
+                    <div class="click-hint">▸ Click to expand</div>
+                </div>
+                <div class="project-graphic has-image">
+                    <img src="Find-a-Way-Soccer-for-Windows-8_7-1949492389.jpg" alt="Find a Way Soccer key art">
+
+                    <div class="graphic-placeholder">
+                        <span class="icon">⚽</span>
+                        <span class="label">Key Art Placeholder</span>
+                    </div>
+                </div>
+            </div>
+            <div class="project-detail">
+                <div class="project-detail-inner">
+
+                    <div class="detail-section">
+                        <div class="detail-label">Overview</div>
+                        <p><strong>Find a Way Soccer</strong> (2014), the original soccer-themed puzzle game released alongside the 2014 Brazil World Cup. <strong>Find a Way Soccer 2</strong> (2015), a standalone sequel with refined puzzles and new mechanics. <strong>Find a Way Soccer: Women's Cup</strong> (2015), a Women's Cup edition of the puzzle formula.</p>
+                        
+                        <div class="detail-label">Contributions</div>
+                        <p>This is my first commercially released title. Players think several moves ahead, anticipate opponents' next moves, and route teammates to goal without wasting a single move. I developed C#/Unity3D gameplay code across the series, implemented sound and audio systems including cup-themed music integration, and built menu systems and UI flow across levels, team selection, and game variants. I also built tools for game designers to implement levels, implemented animations for players, opponents, and game state transitions, and designed and implemented a number of the game's puzzles.</p>
+                    </div>
+
+                    <div class="detail-section">
+                        <div class="detail-label">Gallery</div>
+                        <div class="gallery-grid" data-gallery>
+                            <button class="gallery-thumb" data-type="video" data-video="https://www.youtube.com/watch?v=vIvDEHgWPLY" data-alt="Find a Way Soccer trailer" data-caption="Find a Way Soccer — trailer">
+                                <img src="https://img.youtube.com/vi/vIvDEHgWPLY/hqdefault.jpg" alt="Find a Way Soccer trailer">
+                            </button>
+                            <button class="gallery-thumb" data-full="findaway-01.jpg" data-alt="Find a Way Soccer screenshot 1" data-caption="Find a Way Soccer — screenshot">
+                                <img src="findaway-01.jpg" alt="Find a Way Soccer screenshot 1">
+                            </button>
+                            <button class="gallery-thumb" data-full="findaway-02.jpg" data-alt="Find a Way Soccer screenshot 2" data-caption="Find a Way Soccer — screenshot">
+                                <img src="findaway-02.jpg" alt="Find a Way Soccer screenshot 2">
+                            </button>
+                            <button class="gallery-thumb" data-full="findaway-03.jpg" data-alt="Find a Way Soccer screenshot 3" data-caption="Find a Way Soccer — screenshot">
+                                <img src="findaway-03.jpg" alt="Find a Way Soccer screenshot 3">
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        
+
+        <!-- ════ Project 7: Trailer & Content Production — graphic on RIGHT ════ -->
+        <div class="project-card" data-accent="blue" onclick="toggleCard(this)">
+            <div class="project-top">
+                <div class="project-summary">
+                    <h3>Trailer & Content Production</h3>
+                    <div class="project-meta">Video Content &middot; 2022 – 2025 &middot; <span class="project-company">Coffee Stain Studios</span></div>
+                    <div class="blurb">Produced and directed trailers, announcements, and community content for Satisfactory's YouTube and Twitch channels, generating 170M+ total views and 500K followers across 9 major update campaigns.</div>
+                    <div class="click-hint">▸ Click to expand & play</div>
+                </div>
+                <div class="project-graphic has-image">
+                    <img src="trailer-keyart2.jpg" alt="Trailer & Content Production key art">
+                    <div class="graphic-placeholder">
+                        <span class="icon">🎬</span>
+                        <span class="label">Key Art Placeholder</span>
+                    </div>
+                </div>
+            </div>
+            <div class="project-detail">
+                <div class="project-detail-inner">
+
+                    <div class="detail-section">
+                        <div class="detail-label">Contributions</div>
+                        <p>Over the years I have produced content for YouTube and Twitch that generated 170M+ total views and 500K followers on several platforms.</p>
+                        <p>I've directed and co-directed many announcement videos and trailers in coordination with the editing team to build hype around each major update launch. The videos below are some of the trailers I've directed, edited, animated, and recorded.</p>
+                    </div>
+
+                    <div class="detail-section">
+                        <div class="detail-label">Featured Videos</div>
+                        <div class="gallery-grid" data-gallery>
+                            <button class="gallery-thumb" data-type="video" data-video="https://www.youtube.com/watch?v=febekpSoEbA" data-alt="A Satisfactory Announcement" data-caption="A Satisfactory Announcement — Published July 2024 · Coffee Stain Studios YouTube channel">
+                                <img src="https://img.youtube.com/vi/febekpSoEbA/hqdefault.jpg" alt="A Satisfactory Announcement">
+                            </button>
+                            <button class="gallery-thumb" data-type="video" data-video="https://www.youtube.com/watch?v=LTJEvh8kqKE" data-alt="Satisfactory 1.0 Pioneer Model Trailer" data-caption="Satisfactory 1.0 Pioneer Model Trailer — Produced the entire video in-engine: lighting, camera work, animations, and post">
+                                <img src="https://img.youtube.com/vi/LTJEvh8kqKE/hqdefault.jpg" alt="Satisfactory 1.0 Pioneer Model Trailer">
+                            </button>
+                            <button class="gallery-thumb" data-type="video" data-video="https://www.youtube.com/watch?v=U_K6QiUaenQ" data-alt="Satisfactory 1.0 Teaser Trailer" data-caption="Satisfactory 1.0 Teaser Trailer — Directed the trailer, created all animations for the intro, and coordinated production of music and recording">
+                                <img src="https://img.youtube.com/vi/U_K6QiUaenQ/hqdefault.jpg" alt="Satisfactory 1.0 Teaser Trailer">
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- ── Timeline ── 
+    <section class="timeline-section">
+        <h2 class="section-title">Career Timeline</h2>
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="year">2025 – PRESENT</div>
+                <div class="role">Game Development Consultant</div>
+                <div class="company-name">Treptow Art Studio (Freelance)</div>
+            </div>
+            <div class="timeline-item">
+                <div class="year">2018 – 2025</div>
+                <div class="role">Senior Game Developer / Community Manager</div>
+                <div class="company-name">Coffee Stain Studios</div>
+            </div>
+            <div class="timeline-item">
+                <div class="year">2016 – 2018</div>
+                <div class="role">Producer, Team Lead & Programmer</div>
+                <div class="company-name">Hello There Games</div>
+            </div>
+            <div class="timeline-item">
+                <div class="year">2014 – 2016</div>
+                <div class="role">Programmer</div>
+                <div class="company-name">Hello There Games</div>
+            </div>
+            <div class="timeline-item">
+                <div class="year">2009 – 2014</div>
+                <div class="role">Programming Consultant</div>
+                <div class="company-name">Treptow Art-Studio (Freelance)</div>
+            </div>
+        </div>
+    </section>
+    -->
+
+    <footer>
+        <div class="social-links">
+            <a href="https://x.com/BustaSnutt" target="_blank" rel="noopener" aria-label="X / Twitter">
+                <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            </a>
+            <a href="https://bsky.app/profile/snutt.bsky.social" target="_blank" rel="noopener" aria-label="Bluesky">
+                <svg viewBox="0 0 24 24"><path d="M5.202 2.857C7.954 4.922 10.913 9.11 12 11.358c1.087-2.247 4.046-6.436 6.798-8.501C20.783 1.366 24 .213 24 3.883c0 .732-.42 6.156-.667 7.037-.856 3.061-3.978 3.842-6.755 3.37 4.854.826 6.089 3.562 3.422 6.299-5.065 5.196-7.28-1.304-7.847-2.97-.104-.305-.152-.448-.153-.327 0-.121-.05.022-.153.327-.568 1.666-2.782 8.166-7.847 2.97-2.667-2.737-1.432-5.473 3.422-6.3-2.777.473-5.899-.308-6.755-3.369C.42 10.04 0 4.615 0 3.883c0-3.67 3.217-2.517 5.202-1.026"/></svg>
+            </a>
+            <a href="https://www.linkedin.com/in/snutt-treptow-40b7b8145/" target="_blank" rel="noopener" aria-label="LinkedIn">
+                <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.852 3.37-1.852 3.601 0 4.267 2.37 4.267 5.455v6.288zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.063 2.063 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+            </a>
+            <a href="https://www.youtube.com/@GameDevCircle" target="_blank" rel="noopener" aria-label="YouTube">
+                <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+            </a>
+            <a href="https://twitch.tv/snutt101" target="_blank" rel="noopener" aria-label="Twitch">
+                <svg viewBox="0 0 24 24"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714Z"/></svg>
+            </a>
+        </div>
+        <p>&copy; <span id="footer-year">2026</span> — Snutt Treptow</p>
+    </footer>
+
+    <button class="back-to-top" id="back-to-top" aria-label="Back to top"></button>
+
+    <!-- ── Lightbox carousel ── -->
+    <div class="lightbox" id="lightbox" aria-hidden="true">
+        <button class="lightbox-close" id="lightbox-close" aria-label="Close">&times;</button>
+        <button class="lightbox-nav prev" id="lightbox-prev" aria-label="Previous">&#8249;</button>
+        <div class="lightbox-stage" id="lightbox-stage">
+            <img id="lightbox-img" src="" alt="" style="display:none">
+            <iframe id="lightbox-iframe" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen frameborder="0" referrerpolicy="strict-origin-when-cross-origin" style="display:none"></iframe>
+        </div>
+        <button class="lightbox-nav next" id="lightbox-next" aria-label="Next">&#8250;</button>
+        <div class="lightbox-caption" id="lightbox-caption"></div>
+        <div class="lightbox-counter" id="lightbox-counter"></div>
+    </div>
+
+    <script>
+        (function () {
+            var stored = localStorage.getItem('theme');
+            if (stored === 'dark') document.body.classList.add('dark');
+        })();
+
+        (function () {
+            var btn = document.getElementById('theme-toggle');
+            btn.addEventListener('click', function () {
+                var dark = document.body.classList.toggle('dark');
+                localStorage.setItem('theme', dark ? 'dark' : 'light');
+            });
+        })();
+
+        function toggleCard(card) {
+            card.classList.toggle('open');
+        }
+
+        (function () {
+            var lb = document.getElementById('lightbox');
+            var lbImg = document.getElementById('lightbox-img');
+            var lbIframe = document.getElementById('lightbox-iframe');
+            var lbCaption = document.getElementById('lightbox-caption');
+            var lbCounter = document.getElementById('lightbox-counter');
+            var current = [];
+            var index = 0;
+
+            function open(items, i) {
+                current = items;
+                index = i;
+                render();
+                lb.classList.add('open');
+                lb.setAttribute('aria-hidden', 'false');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function close() {
+                lb.classList.remove('open');
+                lb.setAttribute('aria-hidden', 'true');
+                document.body.style.overflow = '';
+                lbImg.src = '';
+                lbImg.style.display = 'none';
+                lbIframe.src = '';
+                lbIframe.style.display = 'none';
+            }
+
+            function render() {
+                var item = current[index];
+                if (item.type === 'video') {
+                    lbImg.style.display = 'none';
+                    lbImg.src = '';
+                    lbIframe.style.display = 'block';
+                    lbIframe.src = item.src;
+                } else {
+                    lbIframe.style.display = 'none';
+                    lbIframe.src = '';
+                    lbImg.style.display = 'block';
+                    lbImg.src = item.src;
+                }
+                lbImg.alt = item.alt || '';
+                lbCaption.textContent = item.caption || '';
+                lbCounter.textContent = (index + 1) + ' / ' + current.length;
+            }
+
+            function prev() {
+                index = (index - 1 + current.length) % current.length;
+                render();
+            }
+
+            function next() {
+                index = (index + 1) % current.length;
+                render();
+            }
+
+            function extractYouTubeId(url) {
+                var m = /(?:youtube\.com\/(?:embed\/|watch\?v=|v\/)|youtu\.be\/)([A-Za-z0-9_-]{11})/.exec(url);
+                return m ? m[1] : null;
+            }
+
+            document.querySelectorAll('[data-gallery]').forEach(function (grid) {
+                var thumbs = grid.querySelectorAll('.gallery-thumb');
+                var items = Array.prototype.map.call(thumbs, function (t) {
+                    var type = t.getAttribute('data-type') || 'image';
+                    var src;
+                    if (type === 'video') {
+                        var vid = extractYouTubeId(t.getAttribute('data-video'));
+                        src = vid
+                            ? 'https://www.youtube-nocookie.com/embed/' + vid + '?autoplay=1&rel=0'
+                            : t.getAttribute('data-video');
+                    } else {
+                        src = t.getAttribute('data-full') || t.querySelector('img').src;
+                    }
+                    return {
+                        type: type,
+                        src: src,
+                        alt: t.getAttribute('data-alt') || '',
+                        caption: t.getAttribute('data-caption') || ''
+                    };
+                });
+                thumbs.forEach(function (t, i) {
+                    t.addEventListener('click', function (e) {
+                        e.stopPropagation();
+                        open(items, i);
+                    });
+                });
+            });
+
+            document.getElementById('lightbox-close').addEventListener('click', close);
+            document.getElementById('lightbox-prev').addEventListener('click', prev);
+            document.getElementById('lightbox-next').addEventListener('click', next);
+            lb.addEventListener('click', function (e) { if (e.target === lb) close(); });
+            document.addEventListener('keydown', function (e) {
+                if (!lb.classList.contains('open')) return;
+                if (e.key === 'Escape') close();
+                else if (e.key === 'ArrowLeft') prev();
+                else if (e.key === 'ArrowRight') next();
+            });
+        })();
+
+        (function () {
+            var btn = document.getElementById('back-to-top');
+            window.addEventListener('scroll', function () {
+                if (window.scrollY > 400) {
+                    btn.classList.add('visible');
+                } else {
+                    btn.classList.remove('visible');
+                }
+            });
+            btn.addEventListener('click', function () {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        })();
+
+        (function () {
+            var y = new Date().getFullYear();
+            if (y) document.getElementById('footer-year').textContent = y;
+        })();
+    </script>
+</body>
+</html>
